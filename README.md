@@ -1,16 +1,17 @@
 # Puppy Math
 
-Puppy schedule honesty. The breeder said every few hours, and the bladder keeps a stricter calendar than that. Puppy Math does the potty-break, meal-count and kibble arithmetic a new puppy runs on, with every norm labeled.
+Puppy feeding arithmetic honesty. The food bag does the prescribing; this page only does the dividing. Puppy Math splits the label's daily amount into meals, turns a counted bag into days, and prices the habit per day and per month.
 
 ## What it computes
 
-- **The potty truth** - age in months plus one hours between breaks, capped at 8 (a labeled care norm).
-- **The meal truth** - under 3 months four meals a day, 3 to 5 months three, 6 months and up two (a labeled care norm).
-- **The kibble truth** - about a cup a day per 10 pounds of expected adult weight (a labeled care norm), split per meal.
+- **The potty heuristic** - a rough heuristic some trainers repeat (age in months plus one hours, capped at 8), labeled as a cited ceiling, never a schedule. Your puppy's signals and your vet set the real one.
+- **The meal split** - the daily amount from your food bag or vet, divided across the meals you chose.
+- **The bag truth** - cups the bag measures against the daily amount: how many days a bag covers.
+- **The cost truth** - bag price down to cost per day and per month.
 
 ## Boundary
 
-Illustrative arithmetic only. Every norm is a labeled care norm; your vet and the feeding chart on your own food bag win every tie. Puppy Math never gives a health verdict.
+Illustrative arithmetic only. The potty line is a rough heuristic people repeat; the feeding panels only divide the numbers on your food bag or from your vet. Your puppy, your label and your vet win every tie. Puppy Math never gives a care or health verdict.
 
 ## Files
 
@@ -18,7 +19,7 @@ Illustrative arithmetic only. Every norm is a labeled care norm; your vet and th
 - `app.html` - the interactive calculator.
 - `engine.js` - the arithmetic, shared by the app and the tests.
 - `oracle.py` - the Python mirror that generates `expected.json`.
-- `test.js` - compares every engine output against `expected.json` (19 cases).
+- `test.js` - compares every engine output against `expected.json` (18 cases).
 - `expected.json` - the golden answers.
 
 ## Test
