@@ -16,10 +16,10 @@
   h2 { font-size:1.1rem; margin-bottom:.6rem; }
   p.note { font-size:.9rem; margin-bottom:.4rem; }
   label { display:block; font-size:.9rem; margin:.45rem 0 .1rem; }
-  input { width:100%; padding:.45rem .55rem; font-size:1rem; border:1px solid #d9c4ab; border-radius:6px; background:#fff; color:var(--ink); }
-  .out { margin-top:.7rem; font-size:.98rem; background:#fff; border:1px dashed #d9c4ab; border-radius:6px; padding:.6rem .7rem; min-height:2.4rem; }
+  input { width:100%; padding:.45rem .55rem; font-size:1rem; border:1px solid #d8c4a8; border-radius:6px; background:#fff; color:var(--ink); }
+  .out { margin-top:.7rem; font-size:.98rem; background:#fff; border:1px dashed #d8c4a8; border-radius:6px; padding:.6rem .7rem; min-height:2.4rem; }
   .out.err { border-color:#b03030; color:#8a1f1f; font-style:normal; }
-  footer { margin-top:1.8rem; font-size:.85rem; color:#6f6355; }
+  footer { margin-top:1.8rem; font-size:.85rem; color:#7a6a55; }
   a { color:var(--accent); }
 </style>
 </head>
@@ -28,36 +28,50 @@
   <h1>Puppy Math</h1>
   <div class="boundary">
     <strong>Boundary: illustrative arithmetic only</strong>
-    Labeled care norms - months plus one hours between breaks, four-three-two meals as the months climb, about a cup a day per 10 pounds of expected adult weight. Your vet and the feeding chart on your own food bag win every tie. This page never gives a health verdict.
+    The potty line is a rough heuristic people repeat, and the feeding panels only divide the numbers on your food bag or from your vet. Your puppy, your label and your vet win every tie. This page never gives a care or health verdict.
   </div>
 
   <div class="panel">
-    <h2>The potty truth</h2>
-    <p class="note">A puppy holds it about age in months plus one hours, capped at 8.</p>
+    <h2>The potty heuristic</h2>
+    <p class="note">A rough heuristic some trainers repeat - a cited ceiling, never a schedule.</p>
     <label for="p-age">Age (months)</label>
     <input id="p-age" type="number" min="0" step="1" value="3">
     <div class="out" id="p-out"></div>
   </div>
 
   <div class="panel">
-    <h2>The meal truth</h2>
-    <p class="note">Under 3 months four meals a day, 3 to 5 months three, 6 months and up two.</p>
-    <label for="m-age">Age (months)</label>
-    <input id="m-age" type="number" min="0" step="1" value="3">
+    <h2>The meal split</h2>
+    <p class="note">Take the daily amount from your food bag or your vet.</p>
+    <label for="m-daily">Daily amount from your label (cups)</label>
+    <input id="m-daily" type="number" min="0" step="0.25" value="3">
+    <label for="m-meals">Meals a day</label>
+    <input id="m-meals" type="number" min="0" step="1" value="3">
     <div class="out" id="m-out"></div>
   </div>
 
   <div class="panel">
-    <h2>The kibble truth</h2>
-    <p class="note">About a cup a day per 10 pounds of expected adult weight.</p>
-    <label for="f-lb">Expected adult weight (pounds)</label>
-    <input id="f-lb" type="number" min="0" step="5" value="40">
-    <label for="f-meals">Meals a day</label>
-    <input id="f-meals" type="number" min="0" step="1" value="3">
-    <div class="out" id="f-out"></div>
+    <h2>The bag truth</h2>
+    <p class="note">Count or weigh the cups in your bag once.</p>
+    <label for="b-daily">Daily amount from your label (cups)</label>
+    <input id="b-daily" type="number" min="0" step="0.25" value="3">
+    <label for="b-cups">Cups the bag measures</label>
+    <input id="b-cups" type="number" min="0" step="1" value="100">
+    <div class="out" id="b-out"></div>
   </div>
 
-  <footer>Puppy Math is exact arithmetic over labeled care norms. <a href="index.html">Why it exists</a>.</footer>
+  <div class="panel">
+    <h2>The cost truth</h2>
+    <p class="note">Bag price down to the day and the month.</p>
+    <label for="c-price">Bag price ($)</label>
+    <input id="c-price" type="number" min="0" step="0.01" value="58">
+    <label for="c-cups">Cups the bag measures</label>
+    <input id="c-cups" type="number" min="0" step="1" value="100">
+    <label for="c-daily">Daily amount from your label (cups)</label>
+    <input id="c-daily" type="number" min="0" step="0.25" value="3">
+    <div class="out" id="c-out"></div>
+  </div>
+
+  <footer>Puppy Math is exact arithmetic over one rough heuristic and your label's numbers. <a href="index.html">Why it exists</a>.</footer>
 </main>
 <script src="engine.js"></script>
 <script>
@@ -74,11 +88,13 @@
   }
   const pOut = document.getElementById("p-out");
   const mOut = document.getElementById("m-out");
-  const fOut = document.getElementById("f-out");
+  const bOut = document.getElementById("b-out");
+  const cOut = document.getElementById("c-out");
   function recalc() {
     show(pOut, () => pottyTruth(num("p-age")));
-    show(mOut, () => mealsTruth(num("m-age")));
-    show(fOut, () => foodTruth(num("f-lb"), num("f-meals")));
+    show(mOut, () => mealTruth(num("m-daily"), num("m-meals")));
+    show(bOut, () => bagTruth(num("b-daily"), num("b-cups")));
+    show(cOut, () => costTruth(num("c-price"), num("c-cups"), num("c-daily")));
   }
   document.querySelectorAll("input").forEach((el) => {
     el.addEventListener("input", recalc);
