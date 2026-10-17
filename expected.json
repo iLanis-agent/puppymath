@@ -2,141 +2,144 @@
   {
     "fn": "pottyTruth",
     "args": [
-      1
-    ],
-    "result": "A 1-month-old puppy asks a break about every 2 hours honestly."
-  },
-  {
-    "fn": "pottyTruth",
-    "args": [
       3
     ],
-    "result": "A 3-month-old puppy asks a break about every 4 hours honestly."
-  },
-  {
-    "fn": "pottyTruth",
-    "args": [
-      6
-    ],
-    "result": "A 6-month-old puppy asks a break about every 7 hours honestly."
+    "expected": "A rough heuristic some trainers repeat says age in months plus one hours between breaks, capped at 8 - for a 3-month-old that reads 4 hours. It is a ceiling people cite, not a schedule; your puppy's signals and your vet set the real one."
   },
   {
     "fn": "pottyTruth",
     "args": [
       8
     ],
-    "result": "An 8-month-old puppy asks a break about every 8 hours honestly."
+    "expected": "A rough heuristic some trainers repeat says age in months plus one hours between breaks, capped at 8 - for an 8-month-old that reads 8 hours. It is a ceiling people cite, not a schedule; your puppy's signals and your vet set the real one."
+  },
+  {
+    "fn": "pottyTruth",
+    "args": [
+      1
+    ],
+    "expected": "A rough heuristic some trainers repeat says age in months plus one hours between breaks, capped at 8 - for a 1-month-old that reads 2 hours. It is a ceiling people cite, not a schedule; your puppy's signals and your vet set the real one."
   },
   {
     "fn": "pottyTruth",
     "args": [
       11
     ],
-    "result": "An 11-month-old puppy asks a break about every 8 hours honestly."
+    "expected": "A rough heuristic some trainers repeat says age in months plus one hours between breaks, capped at 8 - for an 11-month-old that reads 8 hours. It is a ceiling people cite, not a schedule; your puppy's signals and your vet set the real one."
   },
   {
     "fn": "pottyTruth",
     "args": [
-      0
-    ],
-    "error": "the age must be above zero"
-  },
-  {
-    "fn": "mealsTruth",
-    "args": [
-      2
-    ],
-    "result": "A 2-month-old puppy eats 4 meals a day honestly."
-  },
-  {
-    "fn": "mealsTruth",
-    "args": [
-      3
-    ],
-    "result": "A 3-month-old puppy eats 3 meals a day honestly."
-  },
-  {
-    "fn": "mealsTruth",
-    "args": [
-      5
-    ],
-    "result": "A 5-month-old puppy eats 3 meals a day honestly."
-  },
-  {
-    "fn": "mealsTruth",
-    "args": [
       6
     ],
-    "result": "A 6-month-old puppy eats 2 meals a day honestly."
+    "expected": "A rough heuristic some trainers repeat says age in months plus one hours between breaks, capped at 8 - for a 6-month-old that reads 7 hours. It is a ceiling people cite, not a schedule; your puppy's signals and your vet set the real one."
   },
   {
-    "fn": "mealsTruth",
+    "fn": "mealTruth",
     "args": [
-      8
-    ],
-    "result": "An 8-month-old puppy eats 2 meals a day honestly."
-  },
-  {
-    "fn": "mealsTruth",
-    "args": [
-      0
-    ],
-    "error": "the age must be above zero"
-  },
-  {
-    "fn": "foodTruth",
-    "args": [
-      40,
+      3,
       3
     ],
-    "result": "A puppy growing toward about 40.0 pounds asks 4.0 cups a day, 1.3 cups a meal across 3 meals honestly."
+    "expected": "Your label's 3.0 cups a day split across 3 meals is 1.0 cup a meal - the label does the prescribing, this page only does the dividing."
   },
   {
-    "fn": "foodTruth",
+    "fn": "mealTruth",
     "args": [
-      10,
-      4
-    ],
-    "result": "A puppy growing toward about 10.0 pounds asks 1.0 cups a day, 0.3 cups a meal across 4 meals honestly."
-  },
-  {
-    "fn": "foodTruth",
-    "args": [
-      80,
+      4,
       2
     ],
-    "result": "A puppy growing toward about 80.0 pounds asks 8.0 cups a day, 4.0 cups a meal across 2 meals honestly."
+    "expected": "Your label's 4.0 cups a day split across 2 meals is 2.0 cups a meal - the label does the prescribing, this page only does the dividing."
   },
   {
-    "fn": "foodTruth",
+    "fn": "mealTruth",
     "args": [
-      5,
-      3
+      2.5,
+      2
     ],
-    "result": "A puppy growing toward about 5.0 pounds asks 0.5 cups a day, 0.2 cups a meal across 3 meals honestly."
+    "expected": "Your label's 2.5 cups a day split across 2 meals is 1.3 cups a meal - the label does the prescribing, this page only does the dividing."
   },
   {
-    "fn": "foodTruth",
+    "fn": "mealTruth",
     "args": [
-      25,
+      1,
       1
     ],
-    "result": "A puppy growing toward about 25.0 pounds asks 2.5 cups a day, 2.5 cups a meal across 1 meal honestly."
+    "expected": "Your label's 1.0 cup a day split across 1 meal is 1.0 cup a meal - the label does the prescribing, this page only does the dividing."
   },
   {
-    "fn": "foodTruth",
+    "fn": "mealTruth",
     "args": [
-      0,
+      2,
+      4
+    ],
+    "expected": "Your label's 2.0 cups a day split across 4 meals is 0.5 cups a meal - the label does the prescribing, this page only does the dividing."
+  },
+  {
+    "fn": "bagTruth",
+    "args": [
+      3,
+      100
+    ],
+    "expected": "At 3.0 cups a day, a bag that measures 100.0 cups covers 33.3 days - count the cups once and the bag stops surprising you."
+  },
+  {
+    "fn": "bagTruth",
+    "args": [
+      2.5,
+      80
+    ],
+    "expected": "At 2.5 cups a day, a bag that measures 80.0 cups covers 32.0 days - count the cups once and the bag stops surprising you."
+  },
+  {
+    "fn": "bagTruth",
+    "args": [
+      4,
+      60
+    ],
+    "expected": "At 4.0 cups a day, a bag that measures 60.0 cups covers 15.0 days - count the cups once and the bag stops surprising you."
+  },
+  {
+    "fn": "bagTruth",
+    "args": [
+      1,
+      30
+    ],
+    "expected": "At 1.0 cup a day, a bag that measures 30.0 cups covers 30.0 days - count the cups once and the bag stops surprising you."
+  },
+  {
+    "fn": "costTruth",
+    "args": [
+      58,
+      100,
       3
     ],
-    "error": "the adult weight must be above zero"
+    "expected": "A $58.00 bag at 3.0 cups a day runs $1.74 a day, about $52.20 a month - the bag size on the shelf is the marketing, this is the number."
   },
   {
-    "fn": "foodTruth",
+    "fn": "costTruth",
     "args": [
+      8,
       40,
-      0
+      2
     ],
-    "error": "the meal count must be above zero"
+    "expected": "An $8.00 bag at 2.0 cups a day runs $0.40 a day, about $12.00 a month - the bag size on the shelf is the marketing, this is the number."
+  },
+  {
+    "fn": "costTruth",
+    "args": [
+      72,
+      150,
+      4
+    ],
+    "expected": "A $72.00 bag at 4.0 cups a day runs $1.92 a day, about $57.60 a month - the bag size on the shelf is the marketing, this is the number."
+  },
+  {
+    "fn": "costTruth",
+    "args": [
+      45,
+      80,
+      2.5
+    ],
+    "expected": "A $45.00 bag at 2.5 cups a day runs $1.41 a day, about $42.19 a month - the bag size on the shelf is the marketing, this is the number."
   }
 ]
