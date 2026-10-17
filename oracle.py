@@ -6,73 +6,58 @@ def tenths(x):
 def fixed1(x):
     return f"{tenths(x):.1f}"
 
+def money(x):
+    return f"${x:.2f}"
+
 def article(n):
-    s = str(abs(int(n)))
-    return "An" if s.startswith("8") or s.startswith("11") or s.startswith("18") else "A"
+    return "an" if (n == 8 or n == 11 or n == 18 or 80 <= n <= 89) else "a"
+
+def article_money(p):
+    return "An" if (math.floor(p) in (8, 11, 18) or 80 <= math.floor(p) <= 89) else "A"
+
+def cup_word(x):
+    return "cup" if x == 1 else "cups"
 
 def potty_truth(age):
-    if age <= 0:
-        raise ValueError("the age must be above zero")
     hours = min(age + 1, 8)
-    return f"{article(age)} {age}-month-old puppy asks a break about every {hours} hours honestly."
+    word = "hour" if hours == 1 else "hours"
+    return (f"A rough heuristic some trainers repeat says age in months plus one hours between "
+            f"breaks, capped at 8 - for {article(age)} {age}-month-old that reads {hours} {word}. "
+            f"It is a ceiling people cite, not a schedule; your puppy's signals and your vet set "
+            f"the real one.")
 
-def meals_truth(age):
-    if age <= 0:
-        raise ValueError("the age must be above zero")
-    if age < 3:
-        meals = 4
-    elif age < 6:
-        meals = 3
-    else:
-        meals = 2
-    return f"{article(age)} {age}-month-old puppy eats {meals} meals a day honestly."
+def meal_truth(daily, meals):
+    per = tenths(daily / meals)
+    word = "meal" if meals == 1 else "meals"
+    return (f"Your label's {fixed1(daily)} {cup_word(daily)} a day split across {meals} {word} "
+            f"is {fixed1(per)} {cup_word(per)} a meal - the label does the prescribing, this page "
+            f"only does the dividing.")
 
-def food_truth(lb, meals):
-    if lb <= 0:
-        raise ValueError("the adult weight must be above zero")
-    if meals <= 0:
-        raise ValueError("the meal count must be above zero")
-    total = tenths(lb / 10)
-    per_meal = tenths(total / meals)
-    meal_word = "meal" if meals == 1 else "meals"
-    return (f"A puppy growing toward about {fixed1(lb)} pounds asks {fixed1(total)} cups a day, "
-            f"{fixed1(per_meal)} cups a meal across {meals} {meal_word} honestly.")
+def bag_truth(daily, bag):
+    days = tenths(bag / daily)
+    word = "day" if days == 1 else "days"
+    return (f"At {fixed1(daily)} {cup_word(daily)} a day, a bag that measures {fixed1(bag)} "
+            f"{cup_word(bag)} covers {fixed1(days)} {word} - count the cups once and the bag "
+            f"stops surprising you.")
+
+def cost_truth(price, bag, daily):
+    per_day = price / bag * daily
+    per30 = per_day * 30
+    return (f"{article_money(price)} {money(price)} bag at {fixed1(daily)} {cup_word(daily)} "
+            f"a day runs {money(per_day)} a day, about {money(per30)} a month - the bag size on "
+            f"the shelf is the marketing, this is the number.")
 
 cases = []
-
-def add(fn_name, args):
-    try:
-        fn = {"pottyTruth": potty_truth, "mealsTruth": meals_truth, "foodTruth": food_truth}[fn_name]
-        cases.append({"fn": fn_name, "args": args, "result": fn(*args)})
-    except ValueError as e:
-        cases.append({"fn": fn_name, "args": args, "error": str(e)})
-
-# pottyTruth
-add("pottyTruth", [1])      # 2 hours
-add("pottyTruth", [3])      # 4 hours
-add("pottyTruth", [6])      # 7 hours
-add("pottyTruth", [8])      # An 8-month-old, capped at 8
-add("pottyTruth", [11])     # An 11-month-old, capped at 8
-add("pottyTruth", [0])      # error
-# mealsTruth
-add("mealsTruth", [2])      # 4 meals
-add("mealsTruth", [3])      # 3 meals, edge
-add("mealsTruth", [5])      # 3 meals
-add("mealsTruth", [6])      # 2 meals, edge
-add("mealsTruth", [8])      # An 8-month-old, 2 meals
-add("mealsTruth", [0])      # error
-# foodTruth
-add("foodTruth", [40, 3])   # 4.0 a day, 1.3 a meal
-add("foodTruth", [10, 4])   # 1.0 a day, 0.3 a meal
-add("foodTruth", [80, 2])   # 8.0 a day, 4.0 a meal
-add("foodTruth", [5, 3])    # 0.5 a day, 0.2 a meal
-add("foodTruth", [25, 1])   # 2.5 a day, 2.5 across 1 meal (singular)
-add("foodTruth", [0, 3])    # error
-add("foodTruth", [40, 0])   # error
+for a in [3, 8, 1, 11, 6]:
+    cases.append({"fn": "pottyTruth", "args": [a], "expected": potty_truth(a)})
+for d, m in [(3, 3), (4, 2), (2.5, 2), (1, 1), (2, 4)]:
+    cases.append({"fn": "mealTruth", "args": [d, m], "expected": meal_truth(d, m)})
+for d, b in [(3, 100), (2.5, 80), (4, 60), (1, 30)]:
+    cases.append({"fn": "bagTruth", "args": [d, b], "expected": bag_truth(d, b)})
+for p, b, d in [(58, 100, 3), (8, 40, 2), (72, 150, 4), (45, 80, 2.5)]:
+    cases.append({"fn": "costTruth", "args": [p, b, d], "expected": cost_truth(p, b, d)})
 
 with open("expected.json", "w") as f:
     json.dump(cases, f, indent=2)
     f.write("\n")
-print(f"{len(cases)} cases written")
-for c in cases:
-    print(c["fn"], c["args"], "->", c["result"] if "result" in c else "ERR: " + c["error"])
+print(len(cases), "cases written")
